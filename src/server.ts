@@ -5,7 +5,7 @@ import { registerTools } from "./tools.js";
 export function createTransport12McpServer(apiBaseUrl: string): McpServer {
   const server = new McpServer({
     name: "transport12-mcp",
-    version: "0.2.0",
+    version: "0.2.1",
   });
 
   registerTools(
