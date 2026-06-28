@@ -90,7 +90,7 @@ Authorization: Bearer <token>
 
 ### Claude Desktop
 
-Локальный вариант:
+Стабильный вариант для Claude Desktop - локальный stdio MCP:
 
 ```json
 {
@@ -106,18 +106,13 @@ Authorization: Bearer <token>
 }
 ```
 
-Удаленный вариант:
+Если ваша версия Claude Desktop или рабочее пространство поддерживает удаленные MCP/connectors через интерфейс приложения, используйте URL:
 
-```json
-{
-  "mcpServers": {
-    "transport12": {
-      "type": "streamable-http",
-      "url": "https://transport12.yasg.ru/mcp"
-    }
-  }
-}
+```text
+https://transport12.yasg.ru/mcp
 ```
+
+Если прямое подключение HTTP MCP в Claude Desktop недоступно, используйте локальный `npx`-вариант выше или Claude Code CLI.
 
 ### Claude Code CLI
 
@@ -327,7 +322,7 @@ Authorization: Bearer <token>
 
 ### YandexGPT / Yandex Cloud AI Studio
 
-В Yandex Cloud AI Studio используйте MCP Hub и подключайте `transport12` как внешний MCP-сервер:
+В Yandex Cloud AI Studio используйте MCP Hub и подключайте `transport12` как внешний MCP-сервер. В настройках транспорта выбирайте HTTP/Streamable HTTP, если такой выбор доступен:
 
 ```text
 https://transport12.yasg.ru/mcp
@@ -337,7 +332,7 @@ https://transport12.yasg.ru/mcp
 
 ### GigaChat
 
-Для GigaChat подключение обычно делается не в самом чате, а через MCP-совместимый агентный слой: LangChain/LangGraph, LlamaIndex, Dify, Flowise, CrewAI, AutoGen, VoltAgent или собственный backend.
+Для GigaChat подключение обычно делается не в самом пользовательском чате, а через MCP-совместимый агентный слой: LangChain/LangGraph, LlamaIndex, Dify, Flowise, CrewAI, AutoGen, VoltAgent или собственный backend.
 
 Рекомендуемый вариант:
 

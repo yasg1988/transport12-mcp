@@ -1,6 +1,6 @@
 {
   "name": "transport12-mcp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "MCP server for the transport12 HTTP API.",
   "license": "MIT",
   "homepage": "https://github.com/yasg1988/transport12-mcp#readme",
