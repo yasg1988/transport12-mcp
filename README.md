@@ -6,30 +6,14 @@ MCP-сервер для HTTP API `transport12`.
 
 Сервер не обращается напрямую к внешним транспортным источникам. Все данные берутся через API основного сервиса `transport12`.
 
-## Scope
+## Варианты подключения
 
-В MCP входят только транспортные и справочные сценарии, полезные внешним AI-клиентам:
+### 1. Локальный MCP
 
-- остановки и ближайшие остановки;
-- маршруты и остановки маршрута;
-- фактическое прибытие транспорта на остановку;
-- транспорт онлайн на маршруте;
-- прогноз движения конкретной машины;
-- направления и рейсы автовокзала;
-- диагностика доступности API.
-
-В MCP намеренно не входят:
-
-- избранное, потому что оно привязано к пользователям Telegram/VK и БД;
-- выбор языка и локализованные ответы;
-- главное меню и бот-сценарии Telegram/VK.
-
-## Настройка
+AI-клиент запускает пакет у пользователя на компьютере или на его сервере.
 
 ```bash
-pnpm install
-pnpm run check
-pnpm run build
+npx -y transport12-mcp
 ```
 
 Переменная окружения:
@@ -38,16 +22,84 @@ pnpm run build
 TRANSPORT12_API_BASE_URL=https://your-transport12-api.example
 ```
 
-## Запуск
+### 2. Удаленный MCP
+
+Администратор может поднять `transport12-mcp` как HTTP-сервис:
 
 ```bash
-pnpm start
+MCP_TRANSPORT=http MCP_PORT=3001 MCP_PATH=/mcp TRANSPORT12_API_BASE_URL=http://127.0.0.1:3000 transport12-mcp
 ```
 
-## Проверка
+Если задан `MCP_AUTH_TOKEN`, клиент должен передавать:
+
+```text
+Authorization: Bearer <token>
+```
+
+## Конфигурация клиентов
+
+### Claude Desktop
+
+```json
+{
+  "mcpServers": {
+    "transport12": {
+      "command": "npx",
+      "args": ["-y", "transport12-mcp"],
+      "env": {
+        "TRANSPORT12_API_BASE_URL": "https://your-transport12-api.example"
+      }
+    }
+  }
+}
+```
+
+### Cursor / Windsurf / Cline / Continue
+
+Большинство MCP-клиентов поддерживают тот же формат `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "transport12": {
+      "command": "npx",
+      "args": ["-y", "transport12-mcp"],
+      "env": {
+        "TRANSPORT12_API_BASE_URL": "https://your-transport12-api.example"
+      }
+    }
+  }
+}
+```
+
+### Удаленный Streamable HTTP MCP
+
+Если клиент поддерживает remote/HTTP MCP, используйте URL:
+
+```text
+https://your-mcp-host.example/mcp
+```
+
+Для защищенного endpoint добавьте Bearer token в настройках клиента.
+
+## Разработка
+
+```bash
+pnpm install
+pnpm run check
+pnpm run build
+```
+
+Проверить API:
 
 ```bash
 TRANSPORT12_API_BASE_URL=https://your-transport12-api.example pnpm run smoke
+```
+
+Проверить HTTP MCP:
+
+```bash
+MCP_HTTP_URL=https://your-mcp-host.example/mcp pnpm run smoke:http
 ```
 
 ## Tools
@@ -69,3 +121,9 @@ TRANSPORT12_API_BASE_URL=https://your-transport12-api.example pnpm run smoke
 - `get_bus_station_calendar` - получить наличие рейсов по датам для направления;
 - `get_ticket_url` - получить ссылку покупки билета или страницу рейса;
 - `search_everything` - единый поиск по остановкам, маршрутам и направлениям автовокзала.
+
+## Не входит в MCP
+
+- избранное, потому что оно привязано к пользователям Telegram/VK и БД;
+- выбор языка и локализованные ответы;
+- главное меню и бот-сценарии Telegram/VK.

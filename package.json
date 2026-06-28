@@ -1,27 +1,52 @@
 {
   "name": "transport12-mcp",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
   "description": "MCP server for the transport12 HTTP API.",
+  "license": "MIT",
+  "homepage": "https://github.com/yasg1988/transport12-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasg1988/transport12-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yasg1988/transport12-mcp/issues"
+  },
   "type": "module",
   "bin": {
     "transport12-mcp": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "docs/assets/transport12-mcp.png",
+    ".env.example"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "transport",
+    "public-transport",
+    "transport12"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
+    "start:http": "MCP_TRANSPORT=http node dist/index.js",
     "dev": "tsx src/index.ts",
     "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.scripts.json",
-    "smoke": "tsx scripts/smoke.ts"
+    "smoke": "tsx scripts/smoke.ts",
+    "smoke:http": "tsx scripts/http-smoke.ts"
   },
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "express": "^5.2.1",
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^22.19.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
