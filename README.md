@@ -27,7 +27,7 @@ TRANSPORT12_API_BASE_URL=https://your-transport12-api.example
 Администратор может поднять `transport12-mcp` как HTTP-сервис:
 
 ```bash
-MCP_TRANSPORT=http MCP_PORT=3001 MCP_PATH=/mcp TRANSPORT12_API_BASE_URL=http://127.0.0.1:3000 transport12-mcp
+MCP_TRANSPORT=http MCP_PORT=3001 MCP_PATH=/mcp MCP_ALLOWED_HOSTS=your-mcp-host.example TRANSPORT12_API_BASE_URL=http://127.0.0.1:3000 transport12-mcp
 ```
 
 Если задан `MCP_AUTH_TOKEN`, клиент должен передавать:

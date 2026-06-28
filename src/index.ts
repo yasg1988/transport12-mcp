@@ -27,7 +27,8 @@ async function runHttp() {
   const port = Number(process.env.MCP_PORT || 3001);
   const path = process.env.MCP_PATH || DEFAULT_MCP_PATH;
   const authToken = process.env.MCP_AUTH_TOKEN;
-  const app = createMcpExpressApp({ host });
+  const allowedHosts = process.env.MCP_ALLOWED_HOSTS?.split(",").map((item) => item.trim()).filter(Boolean);
+  const app = createMcpExpressApp({ host, allowedHosts });
 
   app.get("/health", (_req, res) => {
     res.json({ ok: true, service: "transport12-mcp", transport: "http", path });
