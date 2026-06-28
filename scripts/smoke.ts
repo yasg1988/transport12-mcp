@@ -26,11 +26,15 @@ async function main() {
   const destinations = await api.get("/api/v1/bus-station/destinations/search", { q: "Казань" });
   assert(Array.isArray(destinations), "bus station destination search must be an array");
 
+  const calendar = await api.get("/api/v1/bus-station/calendar", { destinationId: 85833, days: 1 }) as { days?: unknown[] };
+  assert(Array.isArray(calendar.days), "bus station calendar days must be an array");
+
   const checks = await Promise.all([
     api.check("health", "/health"),
     api.check("routes", "/api/v1/routes"),
     api.check("stops_search", "/api/v1/stops/search", { q: "центр" }),
     api.check("bus_station_destinations", "/api/v1/bus-station/destinations/search", { q: "Казань" }),
+    api.check("bus_station_calendar", "/api/v1/bus-station/calendar", { destinationId: 85833, days: 1 }),
   ]);
   assert(checks.every((check) => check.ok), `service checks failed: ${JSON.stringify(checks)}`);
 
@@ -41,6 +45,7 @@ async function main() {
         routes: routes.length,
         stops: stops.length,
         destinations: destinations.length,
+        calendarDays: calendar.days.length,
         checks,
       },
       null,

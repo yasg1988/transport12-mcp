@@ -58,6 +58,7 @@ export function registerTools(server: McpServer, api: Transport12ApiClient): voi
           "get_vehicle_forecast",
           "search_bus_station_destinations",
           "get_bus_station_races",
+          "get_bus_station_calendar",
           "get_ticket_url",
           "search_everything",
         ],
@@ -77,6 +78,7 @@ export function registerTools(server: McpServer, api: Transport12ApiClient): voi
         api.check("routes", "/api/v1/routes"),
         api.check("stops_search", "/api/v1/stops/search", { q: "центр" }),
         api.check("bus_station_destinations", "/api/v1/bus-station/destinations/search", { q: "Казань" }),
+        api.check("bus_station_calendar", "/api/v1/bus-station/calendar", { destinationId: 85833, days: 1 }),
       ]);
       return jsonContent({
         ok: checks.every((check) => check.ok),
@@ -224,6 +226,22 @@ export function registerTools(server: McpServer, api: Transport12ApiClient): voi
     },
     async ({ destinationId, date }) =>
       jsonContent(await api.get("/api/v1/bus-station/races", { destinationId, date })),
+  );
+
+  server.registerTool(
+    "get_bus_station_calendar",
+    {
+      title: "Get bus station calendar",
+      description: "Get bus station race availability by date for a destination. The transport12 API limits the range to the source-supported future window.",
+      inputSchema: {
+        destinationId: z.number().int().positive().describe("Destination id from search_bus_station_destinations."),
+        from: z.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Start date in dd.mm.yyyy format."),
+        to: z.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("End date in dd.mm.yyyy format."),
+        days: z.number().int().positive().max(62).optional().describe("Number of days to check when to is omitted."),
+      },
+    },
+    async ({ destinationId, from, to, days }) =>
+      jsonContent(await api.get("/api/v1/bus-station/calendar", { destinationId, from, to, days })),
   );
 
   server.registerTool(

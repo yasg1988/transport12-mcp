@@ -66,5 +66,6 @@ TRANSPORT12_API_BASE_URL=https://your-transport12-api.example pnpm run smoke
 - `get_vehicle_forecast` - получить прогноз движения конкретной машины;
 - `search_bus_station_destinations` - найти направления автовокзала;
 - `get_bus_station_races` - получить рейсы автовокзала на дату;
+- `get_bus_station_calendar` - получить наличие рейсов по датам для направления;
 - `get_ticket_url` - получить ссылку покупки билета или страницу рейса;
 - `search_everything` - единый поиск по остановкам, маршрутам и направлениям автовокзала.
