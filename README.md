@@ -28,6 +28,7 @@ MCP-сервер для HTTP API `transport12`.
 
 ```bash
 pnpm install
+pnpm run check
 pnpm run build
 ```
 
@@ -43,9 +44,17 @@ TRANSPORT12_API_BASE_URL=https://your-transport12-api.example
 pnpm start
 ```
 
+## Проверка
+
+```bash
+TRANSPORT12_API_BASE_URL=https://your-transport12-api.example pnpm run smoke
+```
+
 ## Tools
 
 - `health` - проверить доступность API;
+- `get_api_summary` - получить границы и возможности MCP-интеграции;
+- `get_service_status` - проверить ключевые endpoint-ы API;
 - `search_stops` - найти остановки по названию;
 - `find_nearby_stops` - найти ближайшие остановки по координатам;
 - `get_stop_routes` - получить маршруты остановки;
@@ -56,4 +65,6 @@ pnpm start
 - `get_route_vehicles` - получить транспорт на линии;
 - `get_vehicle_forecast` - получить прогноз движения конкретной машины;
 - `search_bus_station_destinations` - найти направления автовокзала;
-- `get_bus_station_races` - получить рейсы автовокзала на дату.
+- `get_bus_station_races` - получить рейсы автовокзала на дату;
+- `get_ticket_url` - получить ссылку покупки билета или страницу рейса;
+- `search_everything` - единый поиск по остановкам, маршрутам и направлениям автовокзала.
